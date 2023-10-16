@@ -3,7 +3,6 @@ package com.yupi.springbootinit.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.google.gson.Gson;
 import com.yupi.springbootinit.common.ErrorCode;
 import com.yupi.springbootinit.constant.CommonConstant;
 import com.yupi.springbootinit.exception.BusinessException;
@@ -57,8 +56,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements PostService {
 
-    private final static Gson GSON = new Gson();
-
     @Resource
     private UserService userService;
 
@@ -94,9 +91,6 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     /**
      * 获取查询包装类
-     *
-     * @param postQueryRequest
-     * @return
      */
     @Override
     public QueryWrapper<Post> getQueryWrapper(PostQueryRequest postQueryRequest) {
@@ -307,6 +301,15 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         }).collect(Collectors.toList());
         postVOPage.setRecords(postVOList);
         return postVOPage;
+    }
+
+    @Override
+    public Page<PostVO> listPostVOByPage(PostQueryRequest postQueryRequest, HttpServletRequest httpServletRequest) {
+        long current = postQueryRequest.getCurrent();
+        long pageSize = postQueryRequest.getPageSize();
+        Page<Post> postPage = this.page(new Page<>(current,pageSize),
+                this.getQueryWrapper(postQueryRequest));
+        return this.getPostVOPage(postPage,httpServletRequest);
     }
 
 }
