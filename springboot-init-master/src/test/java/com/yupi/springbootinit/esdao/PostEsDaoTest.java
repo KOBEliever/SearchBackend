@@ -50,12 +50,10 @@ public class PostEsDaoTest {
     @Test
     void testAdd() {
         PostEsDTO postEsDTO = new PostEsDTO();
-        postEsDTO.setId(1L);
-        postEsDTO.setTitle("test");
-        postEsDTO.setContent("test");
+        postEsDTO.setId(2L);
+        postEsDTO.setTitle("test2");
+        postEsDTO.setContent("Hey, I'm your first snippet!\n Now Paste will keep everything you copy to allow you use your clipboard history whenever you need it across all your devices!");
         postEsDTO.setTags(Arrays.asList("java", "python"));
-        postEsDTO.setThumbNum(1);
-        postEsDTO.setFavourNum(1);
         postEsDTO.setUserId(1L);
         postEsDTO.setCreateTime(new Date());
         postEsDTO.setUpdateTime(new Date());
@@ -79,5 +77,10 @@ public class PostEsDaoTest {
     void testFindByCategory() {
         List<PostEsDTO> postEsDaoTestList = postEsDao.findByUserId(1L);
         System.out.println(postEsDaoTestList);
+    }
+
+    @Test
+    void testDelete(){
+         postEsDao.deleteById(1L);
     }
 }
